@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
       size_t horcrux_count = static_cast<size_t>(std::stoi(argv[3]));
       std::string input_path  = std::string(argv[4]);
       std::string output_path = std::string(argv[5]);
-      if(!std::filesystem::exists(input_path)){
+     /* if(!std::filesystem::exists(input_path)){
     std::cerr << "Input path does not exist"<< std::endl;
     exit(EXIT_FAILURE);
   }
@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
   if(!std::filesystem::exists(output_path)){
     std::cerr << "Output path does not exist"<< std::endl;
     exit(EXIT_FAILURE);
-  }
+  }*/
  
       fileSplitMerge::split(horcrux_count, input_path, output_path);
 
