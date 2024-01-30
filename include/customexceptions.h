@@ -14,4 +14,44 @@ class invalid_file: public std::runtime_error {
   virtual ~invalid_file() {}
 };
 
+class encryption_error: public std::runtime_error {
+ public:
+  explicit encryption_error(const std::string& arg) : std::runtime_error{arg} {}
+  explicit encryption_error(const char *arg) : std::runtime_error{arg} {}
+
+  virtual ~encryption_error() {}
+};
+
+class decryption_error: public std::runtime_error {
+ public:
+  explicit decryption_error(const std::string& arg) : std::runtime_error{arg} {}
+  explicit decryption_error(const char *arg) : std::runtime_error{arg} {}
+
+  virtual ~decryption_error() {}
+};
+
+class base64_encode_error: public std::runtime_error {
+ public:
+  explicit base64_encode_error(const std::string& arg) : std::runtime_error{arg} {}
+  explicit base64_encode_error(const char *arg) : std::runtime_error{arg} {}
+
+  virtual ~base64_encode_error() {}
+};
+
+class base64_decode_error: public std::runtime_error {
+ public:
+  explicit base64_decode_error(const std::string& arg) : std::runtime_error{arg} {}
+  explicit base64_decode_error(const char *arg) : std::runtime_error{arg} {}
+
+  virtual ~base64_decode_error() {}
+};
+
+class random_generation_error: public std::runtime_error {
+ public:
+  explicit random_generation_error(const std::string& arg) : std::runtime_error{arg} {}
+  explicit random_generation_error(const char *arg) : std::runtime_error{arg} {}
+
+  virtual ~random_generation_error() {}
+};
+
 #endif /* CUSTOMEXCEPTIONS_H_ */

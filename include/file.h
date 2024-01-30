@@ -8,6 +8,12 @@
 #include <memory>
 #include <limits>
 #include <stdexcept>
+#include <openssl/evp.h>
+#include <openssl/rand.h>
+
+
+static const unsigned int KEY_SIZE = 32;
+static const unsigned int BLOCK_SIZE = 16;
 
 template <typename T>
 struct zallocator {
@@ -30,6 +36,7 @@ struct zallocator {
   }
 
   void deallocate(pointer p, size_type n) {
+    OPENSSL_cleanse(p, n * sizeof(T));
     ::operator delete(p);
   }
 
@@ -64,6 +71,8 @@ struct zallocator {
 using byte = unsigned char ;
 typedef std::basic_string<char, std::char_traits<char>, zallocator<char> >
     secure_string;
+using EVP_CIPHER_CTX_free_ptr =
+    std::unique_ptr<EVP_CIPHER_CTX, decltype(&::EVP_CIPHER_CTX_free)>;
 
 class pathStringHandler {
  public:
@@ -73,8 +82,9 @@ class pathStringHandler {
   static secure_string filePathToString( std::string& filePath);
  private:
   pathStringHandler(pathStringHandler const&) = delete;
-  pathStringHandler& operator=(pathStringHandler const&) = delete;
- 
+  pathStringHandler(pathStringHandler&&) = delete;
+  // pathStringHandler& operator=(pathStringHandler const&) = delete;
+  // pathStringHandler& operator=(pathStringHandler&&) = delete;
 
 };
 
