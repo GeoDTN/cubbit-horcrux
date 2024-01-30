@@ -24,10 +24,10 @@ user
 ##The CLI should expose the following commands:\
                 1.To encrypt and save
 
-``` user@hostname:~$ horcrux create -n <horcrux count> <inputpath> <output path> ```\
+``` user@hostname:~$ horcrux create -n <horcrux count> <input file path> <output path> ```\
                 2.To load, decrypt and retrieve
   
-```  user@hostname:~$ horcrux load -k <decryption key> <inputfiles> <output_file>```
+```  user@hostname:~$ horcrux load -k <decryption key> <inputfiles directory> <output_file path>```
 
           
 To build and test this repo on ubuntu or similar distro, after installing all necessary libraries and setting up environment:\
