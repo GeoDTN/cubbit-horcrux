@@ -11,12 +11,13 @@ int main(int argc, char* argv[]) {
 
   try {
     if (encrpt_decrypt_argument1.compare("create") == 0 &&
-        encrpt_decrypt_argument2.compare("-n") == 0) {
-    if (argc < 5) {
-      std::cerr << "Inavlid command line arguments. Please use correct arguments"
-              << std::endl;
-      exit(EXIT_FAILURE);
-    }
+        encrpt_decrypt_argument2.compare("-n") == 0) 
+    {
+      if (argc < 5) {
+        std::cerr << "Inavlid command line arguments. Please use correct arguments"
+                << std::endl;
+        exit(EXIT_FAILURE);
+      }
       size_t horcrux_count = static_cast<size_t>(std::stoi(argv[3]));
       std::string input_path  = std::string(argv[4]);
       std::string output_path = std::string(argv[5]);
@@ -33,7 +34,8 @@ int main(int argc, char* argv[]) {
       fileSplitMerge::split(horcrux_count, input_path, output_path);
 
 
-    } else if (encrpt_decrypt_argument1.compare("load") == 0 ) {
+    } else if (encrpt_decrypt_argument1.compare("load") == 0 ) 
+    {
       
      if (argc < 4) {
         std::cerr << "Inavlid command line arguments. Please use correct arguments"

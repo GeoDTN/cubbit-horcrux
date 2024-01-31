@@ -73,9 +73,7 @@ class pathStringHandler {
   static secure_string filePathToString( std::string& filePath);
  private:
   pathStringHandler(pathStringHandler const&) = delete;
-  pathStringHandler& operator=(pathStringHandler const&) = delete;
- 
-
+  pathStringHandler& operator=(pathStringHandler const&) = delete; 
 };
 
 #endif // FILE_H_

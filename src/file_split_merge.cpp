@@ -54,13 +54,7 @@ void fileSplitMerge::merge(std::string& filesPath,
   ofile.unsetf(std::ios_base::skipws);
   for (const auto& file : fs::directory_iterator{encrypted_files_path}) {
    std::cout<<std::string(((fs::path)file));
-    //files_to_merge.insert((fs::path)file);
-  //} 
-  //std::ofstream ofile(outPutFilePath+std::string("/retrieved.txt"), std::ios::out | std::ios::binary|std::ios::app);
-  //std::string str;
-  //ofile.unsetf(std::ios_base::skipws);
-  //for (auto& file : files_to_merge) 
-  //{
+
     std::ifstream ifile{};//((fs::path)file)/*, std::ios::in | std::ios::binary)*/;
     ifile.open(std::string((fs::path)file), std::ios::in | std::ios::binary);
     if (!ifile.is_open())

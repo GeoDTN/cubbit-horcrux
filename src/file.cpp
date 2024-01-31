@@ -13,8 +13,9 @@ secure_string pathStringHandler::filePathToString(std::string &filePath)
 }
 
 void pathStringHandler::stringToFile(
-    secure_string& fileContent,
-    std::string& filePath) {  // Better passing non primitive types by reference than by value
+  secure_string& fileContent,
+  std::string& filePath) 
+{  // Better passing non primitive types by reference than by value
   std::ofstream file(filePath);
   file << fileContent<<std::endl;
 }
