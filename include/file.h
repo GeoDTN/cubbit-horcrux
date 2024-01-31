@@ -79,12 +79,12 @@ class pathStringHandler {
   pathStringHandler() = default;
 
   static void stringToFile( secure_string& fileContent,  std::string& filePath);
-  static secure_string filePathToString( std::string& filePath);
+  static std::string filePathToString( std::string& filePath);
  private:
   pathStringHandler(pathStringHandler const&) = delete;
   pathStringHandler(pathStringHandler&&) = delete;
-  // pathStringHandler& operator=(pathStringHandler const&) = delete;
-  // pathStringHandler& operator=(pathStringHandler&&) = delete;
+  pathStringHandler& operator=(pathStringHandler const&) = delete;
+  pathStringHandler& operator=(pathStringHandler&&) = delete;
 
 };
 

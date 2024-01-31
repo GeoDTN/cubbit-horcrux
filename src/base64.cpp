@@ -6,9 +6,9 @@
 #include "customexceptions.h"
 
 static const std::string base64_chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "abcdefghijklmnopqrstuvwxyz"
-    "0123456789+/";
+  "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+  "abcdefghijklmnopqrstuvwxyz"
+  "0123456789+/";
 
 std::string base64::base64_encode(unsigned char const* bytes_to_encode, unsigned int in_len) {
   std::string ret;
@@ -90,6 +90,5 @@ std::string base64::base64_decode(std::string const& encoded_string) {
 
     for (int j = 0; (j < i - 1); j++) ret += char_array_3[j];
   }
-
   return ret;
 }

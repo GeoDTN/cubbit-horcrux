@@ -46,15 +46,17 @@ int main(int argc, char* argv[]) {
 
   try {
     if (encrpt_decrypt_argument1.compare("create") == 0 &&
-        encrpt_decrypt_argument2.compare("-n") == 0) {
+        encrpt_decrypt_argument2.compare("-n") == 0) 
+      {
       size_t horcrux_count = static_cast<size_t>(std::stoi(argv[3]));
       std::cout << "encrytion key  before encoding is :  " << key << std::endl;
       std::cout << "encrytion key is: " <<base64::base64_encode(key,sizeof (key))<< std::endl;
       encrpt_decrypt.aes_encrypt(key, iv, ctext, horcrux_count, input_path,
                                  output_path);
-
-    } else if (encrpt_decrypt_argument1.compare("load") == 0 &&
-               encrpt_decrypt_argument2.compare("-k") == 0) {
+    } 
+    else if (encrpt_decrypt_argument1.compare("load") == 0 &&
+               encrpt_decrypt_argument2.compare("-k") == 0) 
+    {
       const std::string& decryptionKey=base64::base64_decode(std::string(argv[3]));
       std::cout<<"decryption key is : " << decryptionKey << std::endl;
       std::cout<<"size of decryption key is : " << decryptionKey.size() << std::endl;
