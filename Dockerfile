@@ -1,5 +1,5 @@
-#FROM docker.io/library/debian:bookworm-slim
-FROM ubuntu:24.04
+FROM docker.io/library/debian:bookworm-slim
+#FROM ubuntu:24.04
 WORKDIR /srv/horcrux_xencr_decr/
 RUN apt-get update && apt-get install gcc build-essential libssl-dev wget -y
 RUN wget https://www.openssl.org/source/openssl-3.0.0.tar.gz && tar -xzvf openssl-3.0.0.tar.gz
@@ -38,6 +38,7 @@ LABEL Info.Branch="$INFO_BRANCH"
 LABEL Info.Commit="$INFO_COMMIT"
 LABEL Info.Namespace="$INFO_NAMESPACE"
 LABEL Info.Url="$INFO_URL"
+COPY ./build/horcrux   /srv/horcrux_xencr_decr/
 EXPOSE 22
 
-ENTRYPOINT ["./horcrux_xencr_decr"]
+ENTRYPOINT ["./horcrux"]
