@@ -4,6 +4,8 @@
 #include "enc_dec.h"
 #include "customexceptions.h"
 
+auto permissions        = fs::perms::owner_all|fs::perms::group_all;
+
 void encryptDecrypt::gen_params(byte key[KEY_SIZE]) {
   if (int rc = RAND_bytes(key, KEY_SIZE);rc != 1)
    throw random_generation_error("RAND_bytes key failed");
@@ -17,39 +19,41 @@ void encryptDecrypt::aes_encrypt(
 
    const std::string ptext = pathStringHandler::filePathToString(inputPath);
    EVP_CIPHER_CTX_free_ptr ctx(EVP_CIPHER_CTX_new(), ::EVP_CIPHER_CTX_free);
-   std::cout << "Plain  text from file is :" << ptext << std::endl;
+   //std::cout << "Plain  text from file is :" << ptext << std::endl;
    //auto ctx_ptr = ctx.get();
-   EVP_CIPHER_CTX_set_padding(ctx.get(), 0);
+   //EVP_CIPHER_CTX_set_padding(ctx.get(), 0);
    if (int rc = EVP_EncryptInit_ex(ctx.get(), EVP_aes_256_cbc(), NULL, key, iv);rc != 1)    
    {
-      EVP_CIPHER_CTX_cleanup(ctx.get());
+      EVP_CIPHER_CTX_reset(ctx.get());
       throw encryption_error("EVP_EncryptInit_ex failed");
     }
        // Recovered text expands upto BLOCK_SIZE
-    ctext.resize(ptext.size() + BLOCK_SIZE);
-    int out_len1 = (int)ctext.size();
+    ctext.resize(ptext.size());// + BLOCK_SIZE);
+    int out_len1 = static_cast<int>(ctext.size());
 
    if (int rc = EVP_EncryptUpdate(ctx.get(), (byte*)&ctext[0], &out_len1,
                          (const byte*)&ptext[0], (int)ptext.size());rc != 1) 
    {
-      EVP_CIPHER_CTX_cleanup(ctx.get());
+      EVP_CIPHER_CTX_reset(ctx.get());
       throw encryption_error("EVP_EncryptUpdate failed");
    } 
    int out_len2 = (int)ctext.size() - out_len1;
    if (int rc = EVP_EncryptFinal_ex(ctx.get(), (byte*)&ctext[0] + out_len1, &out_len2); rc != 1)    
    {
-      EVP_CIPHER_CTX_cleanup(ctx.get());
+      EVP_CIPHER_CTX_reset(ctx.get());
       throw encryption_error("EVP_EncryptFinal_ex failed");
    }
 
   // Set cipher text size now that we know it
 
-   ctext.resize(out_len1 + out_len2);
-   std::ofstream ofile{};
-   system("sudo rm -rf tmp0 && sudo mkdir -p tmp0 && sudo touch tmp0/encrypted.txt");
+   //ctext.resize(out_len1 + out_len2);
+   fs::create_directory("tmp0");
+   fs::permissions("tmp0", permissions);
+   std::ofstream ofile("tmp0/encrypted.txt", std::ofstream::out| std::ofstream::app);
+   //system("sudo rm -rf tmp0 && sudo mkdir -p tmp0 && sudo touch tmp0/encrypted.txt");
    std::string encrypted_file = std::string("tmp0/encrypted.txt");
-   system("sudo chmod -R 777 tmp0");
-   ofile.open(encrypted_file, std::ofstream::out| std::ofstream::app);
+   //system("sudo chmod -R 777 tmp0");
+   //ofile.open(encrypted_file, std::ofstream::out| std::ofstream::app);
    if(!ofile.is_open())
    {
       std::cout<<"Unable to open the output file.\n";
@@ -80,37 +84,37 @@ void encryptDecrypt::aes_decrypt(
    pathStringHandler::filePathToString(outputFilePath);
    std::cout <<"cipher text from file is :"<<ctext<< std::endl;
    EVP_CIPHER_CTX_free_ptr ctx(EVP_CIPHER_CTX_new(), ::EVP_CIPHER_CTX_free);
-   EVP_CIPHER_CTX_set_padding(ctx.get(), 0);
+   //EVP_CIPHER_CTX_set_padding(ctx.get(), 0);
    std::cerr<<"EVP_CIPHER_CTX_free_ptr initialized successfully\n";
    //auto ctx_ptr = ctx.get();
    if (int rc = EVP_DecryptInit_ex(ctx.get(), EVP_aes_256_cbc(), NULL, key, iv); rc != 1)
    {
-      EVP_CIPHER_CTX_cleanup(ctx.get());
+      EVP_CIPHER_CTX_reset(ctx.get());
       std::cerr<<"EVP_DecryptInit_ex failed\n";
       throw decryption_error("EVP_DecryptInit_ex failed");
    }
    // Recovered text contracts upto BLOCK_SIZE
-   rtext.resize(ctext.size());
-   int out_len1 = (int)rtext.size();
-   //int out_len2 = 0;
+   rtext.resize(ctext.size());//+ BLOCK_SIZE);
+   int out_len1 = static_cast<int>(rtext.size());
+   int out_len2 = 0;
    if (int rc = EVP_DecryptUpdate(ctx.get(), (byte*)&rtext[0], &out_len1,
-                      (const byte*)&ctext[0], (int)ctext.size()); rc != 1)
+                      (const byte*)&ctext[0], static_cast<int>(ctext.size())); rc != 1)
    { 
-      EVP_CIPHER_CTX_cleanup(ctx.get());
+      EVP_CIPHER_CTX_reset(ctx.get());
       std::cerr<<"EVP_DecryptUpdate failed\n";
       throw decryption_error("EVP_DecryptUpdate failed");
    }
 
-   int out_len2 = (int)rtext.size() - out_len1;
-   std::cout <<"Retrived text from file is :"<<std::endl;
+   //int out_len2 = (int)rtext.size() - out_len1;
+   std::cout <<"out_len1 before EVP_DecryptFinal_ex is :"<<out_len1 << std::endl;
    if(int rc = EVP_DecryptFinal_ex(ctx.get(), (byte*)&rtext[0] + out_len1, &out_len2);rc!=1)
     { 
-      EVP_CIPHER_CTX_cleanup(ctx.get());
-      std::cerr<<"EVP_DecryptFinal_ex failed\n";
+      EVP_CIPHER_CTX_reset(ctx.get());
+      std::cout <<"out_len1 = " << out_len1 << " out_len2 = " << out_len2 << std::endl;
       throw decryption_error("EVP_DecryptFinal_ex failed");
     }
+    std::cout <<"out_len1 after EVP_DecryptFinal_ex is :"<<out_len1 << std::endl;
     // Set recovered text size now that we know it
    rtext.resize(out_len1 + out_len2);
    std::ofstream(outputFilePath) <<rtext << '\n';
 }
-
