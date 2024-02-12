@@ -2,12 +2,14 @@
 #define FILE_SPLIT_MERGE_H
 
 #include <string>
+#include "file.h"
+
 
 class fileSplitMerge {
  public:
 
-  static void split(size_t splitNumber,std::string& inputPath, std::string& outPutPath );
-  static void merge(std::string& filesPath,std::string& outPutFilePath);
+  static void split(size_t splitNumber,const fs::path& inputPath, fs::path& outPutPath );
+  static void merge(fs::path& filesPath,fs::path& outPutFilePath);
  private:
 
   fileSplitMerge(fileSplitMerge const&) = delete;

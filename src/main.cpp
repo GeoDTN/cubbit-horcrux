@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstring>
-//#include <source_location>
 
 #include "enc_dec.h"
 #include "base64.h"
@@ -31,28 +30,22 @@ int main(int argc, char* argv[]) {
        0x04, 0x05, 0x06, 0x07,
        0x08, 0x09, 0x0a, 0x0b,
        0x0c, 0x0d, 0x0e, 0x0f };
-  // Load the necessary cipher
-  EVP_add_cipher(EVP_aes_256_cbc());
-  encryptDecrypt encrpt_decrypt{};
-  secure_string ctext{}, rtext{};
 
   byte key[KEY_SIZE];
-  encrpt_decrypt.gen_params(key);
-  //unsigned char key[] = "70bbc518c57acca2c2001694648c40ddaf19e3b4fe1376ad656de8887a0a5ec2";
+  encryptDecrypt::gen_params(key);
   std::string encrpt_decrypt_argument1 = std::string(argv[1]); 
   std::string encrpt_decrypt_argument2 = std::string(argv[2]);
-  std::string input_path  = std::string(argv[4]);
-  std::string output_path = std::string(argv[5]);
 
   try {
     if (encrpt_decrypt_argument1.compare("create") == 0 &&
         encrpt_decrypt_argument2.compare("-n") == 0) 
       {
       size_t horcrux_count = static_cast<size_t>(std::stoi(argv[3]));
+
+      encryptDecrypt::encrypt(key, iv,  horcrux_count, input,output);
       std::cout << "encrytion key  before encoding is :  " << key << std::endl;
       std::cout << "encrytion key is: " <<base64::base64_encode(key,sizeof (key))<< std::endl;
-      encrpt_decrypt.aes_encrypt(key, iv, ctext, horcrux_count, input_path,
-                                 output_path);
+
     } 
     else if (encrpt_decrypt_argument1.compare("load") == 0 &&
                encrpt_decrypt_argument2.compare("-k") == 0) 
@@ -62,11 +55,8 @@ int main(int argc, char* argv[]) {
       std::cout<<"size of decryption key is : " << decryptionKey.size() << std::endl;
       byte d_key[KEY_SIZE];
       std::copy(decryptionKey.begin(), decryptionKey.end(), d_key);
-     /*  for(auto i:d_key){
-        std::cout<<"decryption_key:"<<i<<std::endl;
-      } */
       
-      encrpt_decrypt.aes_decrypt(d_key, iv, rtext, input_path, output_path);
+      encryptDecrypt::decrypt(d_key, iv, input, output);
 
     } else {
       std::cerr<<"Inavlid command line arguments. Please use correct arguments"<<'\n';

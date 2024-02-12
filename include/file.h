@@ -11,8 +11,10 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 
+namespace fs = std::filesystem;
 
-static const unsigned int KEY_SIZE = 32;
+
+static const unsigned int KEY_SIZE   = 32;
 static const unsigned int BLOCK_SIZE = 16;
 
 template <typename T>
@@ -79,13 +81,12 @@ class pathStringHandler {
   pathStringHandler() = default;
 
   static void stringToFile( secure_string& fileContent,  std::string& filePath);
-  static std::string filePathToString( std::string& filePath);
+  static std::string filePathToString( const std::string& filePath);
  private:
   pathStringHandler(pathStringHandler const&) = delete;
   pathStringHandler(pathStringHandler&&) = delete;
   pathStringHandler& operator=(pathStringHandler const&) = delete;
   pathStringHandler& operator=(pathStringHandler&&) = delete;
-
 };
 
 #endif // FILE_H_

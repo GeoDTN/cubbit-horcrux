@@ -1,4 +1,4 @@
-#This C++17 code will achieve the following requirements.
+#This C++ code will achieve the following requirements.
 
 ##Save a file with the following steps:
 ```

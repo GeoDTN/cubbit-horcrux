@@ -6,6 +6,8 @@
 #include "file_split_merge_tests.h"
 
 bool compareFiles(const std::string& p1, const std::string& p2) {
+  if(fs::file_size(p1) != fs::file_size(p2)) 
+  return false;
   std::ifstream f1(p1, std::ifstream::binary | std::ifstream::ate);
   std::ifstream f2(p2, std::ifstream::binary | std::ifstream::ate);
 
@@ -25,13 +27,14 @@ bool compareFiles(const std::string& p1, const std::string& p2) {
                     std::istreambuf_iterator<char>(f2.rdbuf()));
 }
 
+TEST(fileSplitMerge_Tests, Test_split_merge_positive) 
+{
+  size_t horcrux_count       = 3;
+  fs::path inputfilePath     = "source.txt";
+  fs::path  outputPath       = "split";
+  fs::path  mergeOutputPath  = "merged.txt";
 
-TEST(fileSplitMerge_Tests, Test_split_merge_positive) {
-  size_t horcrux_count = 3;
-  std::string inputfilePath="source.txt";
-  std::string outputPath="split";
-  std::string mergeOutputPath="merged.txt";
-fileSplitMerge::split(horcrux_count, inputfilePath,outputPath );
+  fileSplitMerge::split(horcrux_count, inputfilePath,outputPath );
   fileSplitMerge::merge(outputPath,mergeOutputPath);
   EXPECT_EQ(true,compareFiles(inputfilePath,mergeOutputPath));
 
