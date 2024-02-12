@@ -21,7 +21,6 @@ void fileSplitMerge::split(size_t splitNumber,const fs::path& inputfilePath, fs:
   std::string chunk{};
   fs::create_directory("tmp");
   fs::permissions("tmp", permissions_all);
-  std::cout<<"before while in split"<< "line # " <<__LINE__<<std::endl;
   auto it = file_to_string.begin();
 
   for(size_t i = 0; i < splitNumber; i++)
@@ -67,7 +66,8 @@ void fileSplitMerge::merge(fs::path & filesPath,fs::path & outPutFilePath)
   std::cout<<(std::string(outPutFilePath)+std::string("/decrypted.txt"))<<std::endl;
   std::set<std::string> file_list{};
   ofile.unsetf(std::ios_base::skipws);
-  for (const auto& file : fs::directory_iterator{encrypted_files_path}) {
+  for (const auto& file : fs::directory_iterator{encrypted_files_path})
+  {
    file_list.insert(std::string((fs::path)file));
   }
   for(const auto& file:file_list)
@@ -82,10 +82,10 @@ void fileSplitMerge::merge(fs::path & filesPath,fs::path & outPutFilePath)
     std::string str{};
     while(std::getline (ifile,str))
     {
-    str += "\n";
-    //std::cout<<"read from file: "<<str<<"\n";
-    ofile<<str;
-    str.clear();
+      str += "\n";
+      //std::cout<<"read from file: "<<str<<"\n";
+      ofile<<str;
+      str.clear();
     }
     ifile.close();
     std::cout<<"removing file: "<<std::string(((fs::path)file))<<std::endl;

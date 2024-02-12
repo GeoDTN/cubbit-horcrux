@@ -111,7 +111,8 @@ void encryptDecrypt::encrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE]
         fs::remove((fs::path)file);
 
         // Now cipher the final block and write it out to file 
-        if(!EVP_CipherFinal_ex(ctx, out_buf, &out_len)){
+        if(!EVP_CipherFinal_ex(ctx, out_buf, &out_len))
+        {
             std::cerr <<"ERROR: EVP_CipherFinal_ex failed. OpenSSL error: "<<ERR_error_string(ERR_get_error(), nullptr)<<std::endl;
             EVP_CIPHER_CTX_cleanup(ctx);
             return;

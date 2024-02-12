@@ -5,9 +5,11 @@
 #include "base64.h"
 #include "customexceptions.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
 
-  if (argc < 5) {
+  if (argc < 5) 
+  {
     std::cerr << "Inavlid command line arguments. Please use correct arguments"
               << std::endl;
     exit(EXIT_FAILURE);
@@ -15,12 +17,14 @@ int main(int argc, char* argv[]) {
   std::filesystem::path input{argv[4]};
   std::filesystem::path output{argv[5]};
 
-  if(!std::filesystem::exists(input)){
+  if(!std::filesystem::exists(input))
+  {
     std::cerr << "Input path does not exist"<< std::endl;
     exit(EXIT_FAILURE);
   }
 
-  if(!std::filesystem::exists(output)){
+  if(!std::filesystem::exists(output))
+  {
     std::cerr << "Output path does not exist"<< std::endl;
     exit(EXIT_FAILURE);
   }
@@ -29,7 +33,8 @@ int main(int argc, char* argv[]) {
   {    0x00, 0x01, 0x02, 0x03,
        0x04, 0x05, 0x06, 0x07,
        0x08, 0x09, 0x0a, 0x0b,
-       0x0c, 0x0d, 0x0e, 0x0f };
+       0x0c, 0x0d, 0x0e, 0x0f 
+  };
 
   byte key[KEY_SIZE];
   encryptDecrypt::gen_params(key);
@@ -48,7 +53,7 @@ int main(int argc, char* argv[]) {
 
     } 
     else if (encrpt_decrypt_argument1.compare("load") == 0 &&
-               encrpt_decrypt_argument2.compare("-k") == 0) 
+             encrpt_decrypt_argument2.compare("-k") == 0) 
     {
       const std::string& decryptionKey=base64::base64_decode(std::string(argv[3]));
       std::cout<<"decryption key is : " << decryptionKey << std::endl;
@@ -64,10 +69,12 @@ int main(int argc, char* argv[]) {
     }
 
   }
-  catch (const std::exception& e) {
+  catch (const std::exception& e) 
+  {
     std::cerr<<"Exception:"<<e.what()<<" thrown @ "<<__FILE__<<":"<<__LINE__<<":"<<std::endl;
   }
-  catch (...) {
+  catch (...) 
+  {
     std::cerr<<"Unexpected exception thrown"<<__FILE__<<":"<<__LINE__<<":"<<std::endl;
   }
 
@@ -76,4 +83,3 @@ int main(int argc, char* argv[]) {
 
   return 0;
 }
-
