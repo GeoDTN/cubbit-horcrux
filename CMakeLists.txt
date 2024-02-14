@@ -18,14 +18,6 @@ if(GTest_FOUND)
 message("Gtest_FOUND = TRUE")
 include(GoogleTest)
 endif()
-#
-#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fsanitize=leak")
-#if(CMAKE_BUILD_TYPE MATCHES "Debug")
-  #set(
-  #  CMAKE_C_FLAGS
-    #"${CMAKE_C_FLAGS} -Werror -Wall -Wextra -Wpedantic -fsanitize=undefined, address -fsanitize-undefined-trap-on-error"
-  #)
-  #endif()
 
 include_directories(${OPENSSL_INCLUDE_DIR})
 
