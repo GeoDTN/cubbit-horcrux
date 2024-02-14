@@ -5,7 +5,8 @@
 
 #include "file_split_merge_tests.h"
 
-bool compareFiles(const std::string& p1, const std::string& p2) {
+bool compareFiles(const std::string& p1, const std::string& p2) 
+{
   std::ifstream f1(p1, std::ifstream::binary | std::ifstream::ate);
   std::ifstream f2(p2, std::ifstream::binary | std::ifstream::ate);
 
@@ -16,7 +17,6 @@ bool compareFiles(const std::string& p1, const std::string& p2) {
   if (f1.tellg() != f2.tellg()) {
     return false;  // size mismatch
   }
-
   // seek back to beginning and use std::equal to compare contents
   f1.seekg(0, std::ifstream::beg);
   f2.seekg(0, std::ifstream::beg);
@@ -31,7 +31,7 @@ TEST(fileSplitMerge_Tests, Test_split_merge_positive) {
   std::string inputfilePath="source.txt";
   std::string outputPath="split";
   std::string mergeOutputPath="merged.txt";
-fileSplitMerge::split(horcrux_count, inputfilePath,outputPath );
+  fileSplitMerge::split(horcrux_count, inputfilePath,outputPath );
   fileSplitMerge::merge(outputPath,mergeOutputPath);
   EXPECT_EQ(true,compareFiles(inputfilePath,mergeOutputPath));
 

@@ -82,10 +82,7 @@ class pathStringHandler {
   static std::string filePathToString( std::string& filePath);
  private:
   pathStringHandler(pathStringHandler const&) = delete;
-  pathStringHandler(pathStringHandler&&) = delete;
-  pathStringHandler& operator=(pathStringHandler const&) = delete;
-  pathStringHandler& operator=(pathStringHandler&&) = delete;
-
+  pathStringHandler& operator=(pathStringHandler const&) = delete; 
 };
 
 #endif // FILE_H_
