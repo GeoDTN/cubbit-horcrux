@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstring>
-//#include <source_location>
 
 #include "enc_dec.h"
 #include "base64.h"
@@ -38,7 +37,7 @@ int main(int argc, char* argv[]) {
 
   byte key[KEY_SIZE];
   encrpt_decrypt.gen_params(key);
-  //unsigned char key[] = "70bbc518c57acca2c2001694648c40ddaf19e3b4fe1376ad656de8887a0a5ec2";
+
   std::string encrpt_decrypt_argument1 = std::string(argv[1]); 
   std::string encrpt_decrypt_argument2 = std::string(argv[2]);
   std::string input_path  = std::string(argv[4]);

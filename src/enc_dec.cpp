@@ -50,9 +50,7 @@ void encryptDecrypt::aes_encrypt(
    fs::create_directory("tmp0");
    fs::permissions("tmp0", permissions);
    std::ofstream ofile("tmp0/encrypted.txt", std::ofstream::out| std::ofstream::app);
-   //system("sudo rm -rf tmp0 && sudo mkdir -p tmp0 && sudo touch tmp0/encrypted.txt");
    std::string encrypted_file = std::string("tmp0/encrypted.txt");
-   //system("sudo chmod -R 777 tmp0");
    //ofile.open(encrypted_file, std::ofstream::out| std::ofstream::app);
    if(!ofile.is_open())
    {
@@ -93,7 +91,7 @@ void encryptDecrypt::aes_decrypt(
       std::cerr<<"EVP_DecryptInit_ex failed\n";
       throw decryption_error("EVP_DecryptInit_ex failed");
    }
-   // Recovered text contracts upto BLOCK_SIZE
+   // recovered text contracts upto BLOCK_SIZE
    rtext.resize(ctext.size());//+ BLOCK_SIZE);
    int out_len1 = static_cast<int>(rtext.size());
    int out_len2 = 0;
@@ -105,7 +103,6 @@ void encryptDecrypt::aes_decrypt(
       throw decryption_error("EVP_DecryptUpdate failed");
    }
 
-   //int out_len2 = (int)rtext.size() - out_len1;
    std::cout <<"out_len1 before EVP_DecryptFinal_ex is :"<<out_len1 << std::endl;
    if(int rc = EVP_DecryptFinal_ex(ctx.get(), (byte*)&rtext[0] + out_len1, &out_len2);rc!=1)
     { 
@@ -114,7 +111,7 @@ void encryptDecrypt::aes_decrypt(
       throw decryption_error("EVP_DecryptFinal_ex failed");
     }
     std::cout <<"out_len1 after EVP_DecryptFinal_ex is :"<<out_len1 << std::endl;
-    // Set recovered text size now that we know it
+    // set recovered text size now that we know it
    rtext.resize(out_len1 + out_len2);
    std::ofstream(outputFilePath) <<rtext << '\n';
 }

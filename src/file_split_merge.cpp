@@ -77,5 +77,4 @@ void fileSplitMerge::merge(std::string& filesPath,
   }
   ofile.close();std::flush(ofile);
   fs::remove_all(fs::path("tmp"));
-  std::cout<<"safely reached end of merge"<<std::endl;
 }
