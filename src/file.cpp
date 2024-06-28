@@ -8,7 +8,7 @@ std::string pathStringHandler::filePathToString(const std::string &filePath)
   return buffer.str();
 }
 
-void pathStringHandler::stringToFile(secure_string& fileContent,std::string& filePath) 
+void pathStringHandler::stringToFile(const secure_string& fileContent,std::string& filePath) 
 {  // Better passing non basic types by reference than by value
   std::ofstream file(filePath);
   file << fileContent<<std::endl;

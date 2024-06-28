@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <utility>
 #include <set>
+#include <algorithm>
 
 #include "file_split_merge.h"
 #include "customexceptions.h"
