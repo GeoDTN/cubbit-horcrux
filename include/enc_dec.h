@@ -5,13 +5,10 @@
 
 class encryptDecrypt {
  public:
-  void gen_params(byte key[KEY_SIZE]);
-  void aes_encrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE],
-                   secure_string& ctext,
-                   size_t horcrux_count, std::string& inputPath, std::string & outPutPath);
-  void aes_decrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE],
-                    secure_string& rtext,
-                   std::string& inputFilesPath, std::string & outputFilePath);
+  static void gen_params(byte key[KEY_SIZE]);
+  static void encrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], size_t horcrux_count,fs::path, fs::path);
+  static void decrypt(const byte key[KEY_SIZE], const byte iv[BLOCK_SIZE], fs::path input, fs::path output);
+  
 };
 
 #endif

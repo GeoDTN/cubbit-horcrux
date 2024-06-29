@@ -11,8 +11,10 @@
 #include <openssl/evp.h>
 #include <openssl/rand.h>
 
+namespace fs = std::filesystem;
 
-static const unsigned int KEY_SIZE = 32;
+
+static const unsigned int KEY_SIZE   = 32;
 static const unsigned int BLOCK_SIZE = 16;
 
 template <typename T>
@@ -77,14 +79,13 @@ using EVP_CIPHER_CTX_free_ptr =
 class pathStringHandler {
  public:
   pathStringHandler() = default;
-
-  static void stringToFile( secure_string& fileContent,  std::string& filePath);
-  static std::string filePathToString( std::string& filePath);
- private:
   pathStringHandler(pathStringHandler const&) = delete;
   pathStringHandler(pathStringHandler&&) = delete;
   pathStringHandler& operator=(pathStringHandler const&) = delete;
   pathStringHandler& operator=(pathStringHandler&&) = delete;
+
+  static void stringToFile( const secure_string& fileContent,  const std::string& filePath);
+  static std::string filePathToString(const  std::string& filePath);
 
 };
 
