@@ -80,9 +80,7 @@ class pathStringHandler {
  public:
   pathStringHandler() = default;
   pathStringHandler(pathStringHandler const&) = delete;
-  pathStringHandler(pathStringHandler&&) = delete;
   pathStringHandler& operator=(pathStringHandler const&) = delete;
-  pathStringHandler& operator=(pathStringHandler&&) = delete;
 
   static void stringToFile( const secure_string& fileContent,  const std::string& filePath);
   static std::string filePathToString(const  std::string& filePath);

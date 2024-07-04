@@ -7,15 +7,11 @@
 
 class fileSplitMerge {
  public:
+  fileSplitMerge(fileSplitMerge const&) = delete;
+  fileSplitMerge& operator=(fileSplitMerge const&) = delete;
 
   static void split(size_t splitNumber,const fs::path& inputPath, fs::path& outPutPath );
   static void merge(fs::path& filesPath,fs::path& outPutFilePath);
- private:
-
-  fileSplitMerge(fileSplitMerge const&) = delete;
-  fileSplitMerge(fileSplitMerge&&) = delete;
-  fileSplitMerge& operator=(fileSplitMerge const&) = delete;
-  fileSplitMerge& operator=(fileSplitMerge&&) = delete;
 
 };
 
