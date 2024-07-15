@@ -20,7 +20,15 @@ void fileSplitMerge::split(size_t splitNumber,const fs::path& inputfilePath, fs:
 
   size_t file_number = 0;
   std::string chunk{};
-  fs::create_directory("tmp");
+  std::error_code ec{};
+    if (fs::create_directory("tmp", ec))
+        std::cout << "tmp directory created successfully\n";
+    else
+    {
+        std::cout << "failed to create tmp directory\n";
+        std::cout << ec.message() << '\n';
+    }
+  //fs::create_directory("tmp");
   fs::permissions("tmp", permissions_all);
   auto it = file_to_string.begin();
 
