@@ -42,7 +42,11 @@ void fileSplitMerge::split(size_t splitNumber,const fs::path& inputfilePath, fs:
       //Create scope with {} to use RAII of std::ofstream to close file
       std::ofstream(splitted_component)<< chunk;
     }
-    fs::copy(splitted_component.c_str(), "tmp", copy_options_all);
+    try {
+      fs::copy(splitted_component.c_str(), "tmp", copy_options_all);
+    } catch (std::filesystem::filesystem_error& e) {
+        std::cout << e.what() << '\n';
+    }
     fs::remove(splitted_component);
     ++file_number;
     it += buffer_size+1;
@@ -56,19 +60,38 @@ void fileSplitMerge::split(size_t splitNumber,const fs::path& inputfilePath, fs:
     //Create scope with {} to use RAII of std::ofstream to close file
     std::ofstream(splitted_component)<< chunk;
   }
-  fs::copy(splitted_component, "tmp", copy_options_all);
+  try{
+      fs::copy(splitted_component, "tmp", copy_options_all);
+    } catch (std::filesystem::filesystem_error& e) {
+        std::cout << e.what() << '\n';
+    }
   fs::remove(splitted_component);
-  fs::copy("tmp", std::string(outputPath).c_str(), copy_options_all);
+  try{
+     fs::copy("tmp", std::string(outputPath).c_str(), copy_options_all);
+    } catch (std::filesystem::filesystem_error& e) {
+        std::cout << e.what() << '\n';
+    }
   fs::remove_all(std::string("tmp"));
 }
 
 void fileSplitMerge::merge(fs::path & filesPath,fs::path & outPutFilePath) 
 {
   fs::remove_all(std::string("tmp"));
-  fs::create_directory("tmp");
+  std::error_code ec{};
+  if (fs::create_directory("tmp", ec))
+        std::cout << "tmp directory created successfully\n";
+  else
+    {
+        std::cout << "failed to create tmp directory\n";
+        std::cout << ec.message() << '\n';
+    }
   fs::permissions("tmp", permissions_all);
   //TO DO : copy from network address
-  fs::copy(filesPath, "tmp", copy_options_all);
+  try{
+      fs::copy(filesPath, "tmp", copy_options_all);
+    } catch (std::filesystem::filesystem_error& e) {
+        std::cout << e.what() << '\n';
+    }
   fs::path encrypted_files_path = fs::path(std::string("tmp"));
   std::ofstream ofile((std::string(outPutFilePath)+std::string("/decrypted.txt")), std::ofstream::out | std::ofstream::app);
  
